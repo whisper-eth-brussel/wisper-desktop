@@ -7,6 +7,8 @@
 const { app } = require("electron");
 const os = require("os");
 
+const { getPubkey } = require("../../../utils/wallet");
+
 const addressBookPath = path.join(
   app.getPath("addressBook"),
   "addressBook.txt"
@@ -39,24 +41,18 @@ function updateAddressBook(addressBook, callback) {
 }
 
 module.exports = (req, res) => {
-  const { peer } = req.params;
-
-  const decodedPeer = JSON.parse(hexToString(peer));
-
-  const { ip, publicKey } = decodedPeer;
-
-  const selfIp = getSelfIp();
+  const { destinationIp } = req.params;
 
   fetch(
-    `http://${ip}:10101/peer/recognize`,
+    `http://${destinationIp}:10101/peer/recognize`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ip: selfIp,
-        publicKey: selfPeer.publicKey,
+        ip: getSelfIp(),
+        publicKey: getPubkey(),
       }),
     },
     (err, response) => {
@@ -72,22 +68,15 @@ module.exports = (req, res) => {
 
       const recievedPeers = response.body.peers;
 
-      getAddressBook((err, addressBook) => {
+      addressBook = JSON.parse(addressBook);
+
+      updateAddressBook(addressBook, (err) => {
         if (err) {
           res.status(500).send("Internal server error");
           return;
         }
 
-        addressBook = JSON.parse(addressBook);
-
-        updateAddressBook(addressBook, (err) => {
-          if (err) {
-            res.status(500).send("Internal server error");
-            return;
-          }
-
-          return res.status(200).send("OK");
-        });
+        return res.status(200).send("OK");
       });
     }
   );
