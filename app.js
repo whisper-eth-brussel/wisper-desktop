@@ -36,6 +36,9 @@ expressApp.use(session({
   resave: false,
   saveUninitialized: true
 }));
+expressApp.use('/atahan', (req, res) => {
+  res.send('Hello Atahan!');
+});
 expressApp.use('/', indexRouteController);
 expressApp.all('*', (req, res) => {
   return res.redirect('/');
@@ -47,7 +50,7 @@ const setupTrayMenu = _ => {
   const menu = Menu.buildFromTemplate([
     {
       label: 'Launch',
-      click: _ => shell.openExternal(`http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`)
+      // click: _ => shell.openExternal(`http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`)
     },
     {
       label: 'About',
