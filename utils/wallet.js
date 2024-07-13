@@ -7,20 +7,25 @@ const privateKeyPath = path.join(app.getPath('userData'), 'encryptedPrivateKey')
 const publicKeyPath = path.join(app.getPath('userData'), 'publicKey');
 
 function signTx(tx, callback) {
-  craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
+  getPubkey((err, pubkey) => {
     if (err)
       return callback(err);
 
-    crypto.sign('sha256', {
-      data: tx.data
-    }, privateKey, (err, signature) => {
+    craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
       if (err)
+        return callback(err);
+
+      tx.data.sender_pubkey = pubkey;
+
+      crypto.sign('sha256', { data: tx.data }, privateKey, (err, signature) => {
+        if (err)
           return callback(err);
 
-      tx.hash = crypto.createHash('sha256').update(tx.data).digest('hex');
-      tx.signature = signature;
+        tx.hash = crypto.createHash('sha256').update(tx.data).digest('hex');
+        tx.signature = signature;
 
-      return callback(null, tx);
+        return callback(null, tx);
+      });
     });
   });
 };
