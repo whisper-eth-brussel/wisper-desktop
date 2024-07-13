@@ -18,11 +18,13 @@ module.exports = (req, res) => {
 
     const selfIp = getSelfIp();
 
+    addressBook[publicKey] = ip;
+
     updateAddressBook(addressBook, (err) => {
       if (err) return res.status(500).send({ error: "Internal server error" });
 
       addressBook[getSelfIp()] = selfIp;
-      addressBook[publicKey] = ip;
+      delete addressBook[publicKey];
 
       res.status(200).send({ peers: addressBook });
     });
