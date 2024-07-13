@@ -43,7 +43,7 @@ module.exports = (req, res) => {
     }
 
     const selfIp = getSelfIp();
-    addressBook[selfIp] = selfIp;
+    addressBook[getSelfIp()] = selfIp;
     addressBook[publicKey] = ip;
 
     updateAddressBook(addressBook, (err) => {
