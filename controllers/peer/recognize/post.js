@@ -3,6 +3,7 @@ const {
   getAddressBook,
   updateAddressBook,
 } = require("../../../utils/addressbook");
+const { getPubkey } = require("../../../utils/wallet");
 
 module.exports = (req, res) => {
   const { ip, publicKey } = req.body;
@@ -23,10 +24,12 @@ module.exports = (req, res) => {
     updateAddressBook(addressBook, (err) => {
       if (err) return res.status(500).send({ error: "Internal server error" });
 
-      addressBook[getSelfIp()] = selfIp;
-      delete addressBook[publicKey];
+      getPubkey((err, pubkey) => {
+        addressBook[pubkey] = selfIp;
+        delete addressBook[publicKey];
 
-      res.status(200).send({ peers: addressBook });
+        res.status(200).send({ peers: addressBook });
+      });
     });
   });
 };
