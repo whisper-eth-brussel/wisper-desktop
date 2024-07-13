@@ -7,7 +7,7 @@ const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
 
 function getSelfIp() {
   return os.networkInterfaces().en0[0].address;
-};
+}
 
 function getAddressBook(callback) {
   fs.readFile(addressBookPath, "utf8", (err, data) => {
@@ -17,7 +17,7 @@ function getAddressBook(callback) {
 
     return callback(null, data);
   });
-};
+}
 
 function updateAddressBook(addressBook, callback) {
   fs.writeFile(addressBookPath, JSON.stringify(addressBook), (err) => {
@@ -27,10 +27,10 @@ function updateAddressBook(addressBook, callback) {
 
     return callback(null);
   });
-};
+}
 
 module.exports = {
   getSelfIp,
   getAddressBook,
-  updateAddressBook
+  updateAddressBook,
 };

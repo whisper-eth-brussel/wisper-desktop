@@ -121,5 +121,3 @@ electronApp
       `You arrived from: ${commandLine.pop()}`
     );
   });
-
-const os = require("os");
