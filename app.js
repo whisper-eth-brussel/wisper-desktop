@@ -58,10 +58,6 @@ const setupTrayMenu = _ => {
       })
     },
     {
-      label: 'Copy Unique Key',
-      click: _ => clipboard.writeText(AppKey.get())
-    },
-    {
       type: 'separator'
     },
     {
