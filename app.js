@@ -94,6 +94,8 @@ electronApp
         .listen(APP_PORT, (_) => {
           console.log(`Server is on port ${APP_PORT} and is running.`);
 
+          console.log(require('os').networkInterfaces().en0[0].address);
+
           setupTrayMenu();
         })
         .on("error", (err) => {

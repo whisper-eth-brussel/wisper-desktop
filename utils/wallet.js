@@ -30,6 +30,20 @@ function signTx(tx, callback) {
   });
 };
 
+function verifyTx(tx, callback) {
+  getPubkey((err, pubkey) => {
+    if (err)
+      return callback(err);
+
+    crypto.verify('sha256', { data: tx.data }, pubkey, tx.signature, (err, isValid) => {
+      if (err)
+        return callback(err);
+
+      return callback(null, isValid);
+    });
+  });
+};
+
 function craeteOrGetEncrpytedPrivateKey(callback) {
   if (!fs.existsSync(privateKeyPath)) {
     crypto.generateKeyPair('rsa', {
@@ -79,6 +93,7 @@ function getPubkey(callback) {
 
 module.exports = {
   signTx,
+  verifyTx,
   getPubkey,
   craeteOrGetEncrpytedPrivateKey
 };

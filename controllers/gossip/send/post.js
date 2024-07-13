@@ -21,13 +21,13 @@ module.exports = (req, res) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            data: signed_tx,
+            tx: signed_tx,
           }),
         })
           .then(res => res.json())
           .then(response => callback(null))
-          .catch((err) => {
-            return callback(err);
+          .catch(err => {
+            console.log(err);
           });
       }, (err) => {
         if (err)
