@@ -28,7 +28,7 @@ function signTx(tx, callback) {
 function craeteOrGetEncrpytedPrivateKey(callback) {
   if (!fs.existsSync(privateKeyPath)) {
     crypto.generateKeyPair('rsa', {
-      modulusLength: 4096,
+      modulusLength: 1024,
       publicKeyEncoding: {
         type: 'spki',
         format: 'pem'
