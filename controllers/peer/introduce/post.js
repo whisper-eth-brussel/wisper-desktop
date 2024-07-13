@@ -17,7 +17,7 @@ console.log(addressBookPath);
 const selfPeerInfo = path.join(app.getPath("userData"), "selfPeerInfo.txt");
 
 function getSelfIp(callback) {
-  return os.networkInterfaces().en0[0];
+  return os.networkInterfaces().en0[0].address;
 }
 
 function getAddressBook(callback) {
