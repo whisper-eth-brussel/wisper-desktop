@@ -6,15 +6,13 @@
 
 const { app } = require("electron");
 const os = require("os");
+const path = require("path");
 
 const { getPubkey } = require("../../../utils/wallet");
 
-const addressBookPath = path.join(
-  app.getPath("addressBook"),
-  "addressBook.txt"
-);
+const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
 
-const selfPeerInfo = path.join(app.getPath("selfPeerInfo"), "selfPeerInfo.txt");
+const selfPeerInfo = path.join(app.getPath("userData"), "selfPeerInfo.txt");
 
 function getSelfIp(callback) {
   return os.networkInterfaces().en0[0];

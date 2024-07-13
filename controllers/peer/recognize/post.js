@@ -1,3 +1,5 @@
+const path = require("path");
+
 function getSelfIp(callback) {
   return os.networkInterfaces().en0[0];
 }

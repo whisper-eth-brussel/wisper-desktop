@@ -23,6 +23,7 @@ const expressApp = express();
 const localServer = http.createServer(expressApp);
 
 const indexRouteController = require("./routes/indexRoute");
+const peersRouteController = require("./routes/peerRoute");
 
 expressApp.set("view engine", "pug");
 expressApp.set("views", path.join(__dirname, "views"));
@@ -41,6 +42,7 @@ expressApp.use(
   })
 );
 expressApp.use("/", indexRouteController);
+expressApp.use("/peers", peersRouteController);
 expressApp.all("*", (req, res) => {
   return res.redirect("/");
 });
