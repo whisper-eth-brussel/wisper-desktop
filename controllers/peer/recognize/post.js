@@ -1,11 +1,5 @@
-function getSelfPeerInfo(callback) {
-  fs.readFile(selfPeerInfo, "utf8", (err, data) => {
-    if (err) {
-      callback(err, null);
-    }
-
-    callback(null, data);
-  });
+function getSelfIp(callback) {
+  return os.networkInterfaces().en0[0];
 }
 
 function getAddressBook(callback) {
@@ -41,12 +35,8 @@ module.exports = (req, res) => {
       return res.status(200).send("Already recognized");
     }
 
-    getSelfPeerInfo((err, selfPeerInfo) => {
-      if (err) return res.status(500).send("Internal server error");
-
-      addressBook[selfPeerInfo.publicKey] = JSON.parse({});
-    });
-
+    const selfIp = getSelfIp();
+    addressBook[selfIp] = selfIp;
     addressBook[publicKey] = ip;
 
     updateAddressBook(addressBook, (err) => {

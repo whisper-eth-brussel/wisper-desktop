@@ -5,6 +5,7 @@
  */
 
 const { app } = require("electron");
+const os = require("os");
 
 const addressBookPath = path.join(
   app.getPath("addressBook"),
@@ -13,14 +14,8 @@ const addressBookPath = path.join(
 
 const selfPeerInfo = path.join(app.getPath("selfPeerInfo"), "selfPeerInfo.txt");
 
-function getSelfPeerInfo(callback) {
-  fs.readFile(selfPeerInfo, "utf8", (err, data) => {
-    if (err) {
-      callback(err, null);
-    }
-
-    callback(null, data);
-  });
+function getSelfIp(callback) {
+  return os.networkInterfaces().en0[0];
 }
 
 function getAddressBook(callback) {
@@ -50,54 +45,50 @@ module.exports = (req, res) => {
 
   const { ip, publicKey } = decodedPeer;
 
-  getSelfPeerInfo((err, selfPeerInfo) => {
-    if (err) return res.status(500).send("Internal server error");
+  const selfIp = getSelfIp();
 
-    selfPeerInfo = JSON.parse(selfPeerInfo);
-
-    fetch(
-      `http://${ip}:10101/peer/recognize`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ip: selfPeer.ip,
-          publicKey: selfPeer.publicKey,
-        }),
+  fetch(
+    `http://${ip}:10101/peer/recognize`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      (err, response) => {
+      body: JSON.stringify({
+        ip: selfIp,
+        publicKey: selfPeer.publicKey,
+      }),
+    },
+    (err, response) => {
+      if (err) {
+        res.status(500).send("Internal server error");
+        return;
+      }
+
+      if (response.status !== 200) {
+        res.status(400).send("Bad request");
+        return;
+      }
+
+      const recievedPeers = response.body.peers;
+
+      getAddressBook((err, addressBook) => {
         if (err) {
           res.status(500).send("Internal server error");
           return;
         }
 
-        if (response.status !== 200) {
-          res.status(400).send("Bad request");
-          return;
-        }
+        addressBook = JSON.parse(addressBook);
 
-        const recievedPeers = response.body.peers;
-
-        getAddressBook((err, addressBook) => {
+        updateAddressBook(addressBook, (err) => {
           if (err) {
             res.status(500).send("Internal server error");
             return;
           }
 
-          addressBook = JSON.parse(addressBook);
-
-          updateAddressBook(addressBook, (err) => {
-            if (err) {
-              res.status(500).send("Internal server error");
-              return;
-            }
-
-            return res.status(200).send("OK");
-          });
+          return res.status(200).send("OK");
         });
-      }
-    );
-  });
+      });
+    }
+  );
 };
