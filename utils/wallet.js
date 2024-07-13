@@ -55,6 +55,16 @@ function craeteOrGetEncrpytedPrivateKey(callback) {
   };
 };
 
+function getPubkey(callback) {
+  fs.readFile(publicKeyPath, 'utf8', (err, data) => {
+    if (err)
+      return callback(err);
+
+    return callback(null, data);
+  });
+};
+
 module.exports = {
-  signTx
+  signTx,
+  getPubkey,
 };
