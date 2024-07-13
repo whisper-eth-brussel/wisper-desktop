@@ -41,6 +41,7 @@ expressApp.use(
     saveUninitialized: true,
   })
 );
+
 expressApp.use("/", indexRouteController);
 expressApp.use("/peers", peersRouteController);
 expressApp.all("*", (req, res) => {

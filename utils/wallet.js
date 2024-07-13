@@ -14,4 +14,5 @@ function getPubkey() {
 
 module.exports = {
   signTx,
+  getPubkey,
 };

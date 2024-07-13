@@ -39,8 +39,8 @@ function updateAddressBook(addressBook, callback) {
 }
 
 module.exports = (req, res) => {
-  const { destinationIp } = req.params;
-
+  let { destinationIp } = req.params;
+  console.log("selam");
   destinationIp = Buffer.from(destinationIp, "hex").toString("utf8");
 
   fetch(
