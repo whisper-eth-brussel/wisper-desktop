@@ -28,12 +28,20 @@ function signTx(tx, callback) {
 function craeteOrGetEncrpytedPrivateKey(callback) {
   if (!fs.existsSync(privateKeyPath)) {
     crypto.generateKeyPair('rsa', {
-      modulusLength: 4096
+      modulusLength: 4096,
+      publicKeyEncoding: {
+        type: 'spki',
+        format: 'pem'
+      },
+      privateKeyEncoding: {
+        type: 'pkcs8',
+        format: 'pem'
+      }
     }, (err, publicKey, privateKey) => {
       if (err)
         return callback(err);
 
-      fs.writeFile(privateKeyPath, safeStorage.encryptString(privateKey), 'utf8', err => {
+      fs.writeFile(privateKeyPath, safeStorage.encryptString(privateKey).toString('base64'), err => {
         if (err)
           return callback(err);
 
@@ -46,11 +54,11 @@ function craeteOrGetEncrpytedPrivateKey(callback) {
       });
     });
   } else {
-    fs.readFile(privateKeyPath, 'utf8', err => {
+    fs.readFile(privateKeyPath, 'utf8', (err, private_key_content) => {
       if (err)
         return callback(err);
 
-      return callback(null, safeStorage.decryptString(data));
+      return callback(null, safeStorage.decryptString(Buffer.from(private_key_content, 'base64')));
     });
   };
 };
@@ -67,4 +75,5 @@ function getPubkey(callback) {
 module.exports = {
   signTx,
   getPubkey,
+  craeteOrGetEncrpytedPrivateKey
 };

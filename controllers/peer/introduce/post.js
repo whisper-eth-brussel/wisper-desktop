@@ -1,44 +1,5 @@
-/**
-    ip
-    port
-    publicKey
- */
-
-const { app } = require("electron");
-const os = require("os");
-const path = require("path");
-const fs = require("fs");
-
 const { getPubkey } = require("../../../utils/wallet");
-
-const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
-console.log(addressBookPath);
-
-const selfPeerInfo = path.join(app.getPath("userData"), "selfPeerInfo.txt");
-
-function getSelfIp(callback) {
-  return os.networkInterfaces().en0[0].address;
-}
-
-function getAddressBook(callback) {
-  fs.readFile(addressBookPath, "utf8", (err, data) => {
-    if (err) {
-      callback(err, null);
-    }
-
-    callback(null, data);
-  });
-}
-
-function updateAddressBook(addressBook, callback) {
-  fs.writeFile(addressBookPath, JSON.stringify(addressBook), (err) => {
-    if (err) {
-      callback(err);
-    }
-
-    callback(null);
-  });
-}
+const { getSelfIp, updateAddressBook } = require("../../../utils/addressbook");
 
 module.exports = (req, res) => {
   let { destinationIp } = req.params;
