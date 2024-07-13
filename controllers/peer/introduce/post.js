@@ -7,10 +7,12 @@
 const { app } = require("electron");
 const os = require("os");
 const path = require("path");
+const fs = require("fs");
 
 const { getPubkey } = require("../../../utils/wallet");
 
 const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
+console.log(addressBookPath);
 
 const selfPeerInfo = path.join(app.getPath("userData"), "selfPeerInfo.txt");
 
@@ -40,35 +42,26 @@ function updateAddressBook(addressBook, callback) {
 
 module.exports = (req, res) => {
   let { destinationIp } = req.params;
-  console.log("selam");
+
   destinationIp = Buffer.from(destinationIp, "hex").toString("utf8");
 
-  fetch(
-    `http://${destinationIp}:10101/peer/recognize`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ip: getSelfIp(),
-        publicKey: getPubkey(),
-      }),
+  fetch(`http://${destinationIp}:10101/peer/recognize`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-    (err, response) => {
-      if (err) {
-        res.status(500).send("Internal server error");
-        return;
-      }
-
+    body: JSON.stringify({
+      ip: getSelfIp(),
+      publicKey: getPubkey(),
+    }),
+  })
+    .then((response) => {
       if (response.status !== 200) {
-        res.status(400).send("Bad request");
-        return;
+        return res.status(400).send("Bad request");
       }
 
-      const recievedPeers = response.body.peers;
-
-      addressBook = JSON.parse(addressBook);
+      console.log(response.body);
+      const addressBook = JSON.parse(response.body.peers || "{}");
 
       updateAddressBook(addressBook, (err) => {
         if (err) {
@@ -78,6 +71,9 @@ module.exports = (req, res) => {
 
         return res.status(200).send("OK");
       });
-    }
-  );
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Internal server error");
+    });
 };

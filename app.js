@@ -43,7 +43,7 @@ expressApp.use(
 );
 
 expressApp.use("/", indexRouteController);
-expressApp.use("/peers", peersRouteController);
+expressApp.use("/peer", peersRouteController);
 expressApp.all("*", (req, res) => {
   return res.redirect("/");
 });
