@@ -34,12 +34,12 @@ module.exports = (req, res) => {
   const { ip, publicKey } = req.body;
 
   getAddressBook((err, addressBook) => {
-    if (err) return res.status(500).send("Internal server error");
+    if (err) return res.status(500).send({ message: "Internal server error" });
 
     addressBook = JSON.parse(addressBook || "{}");
 
     if (addressBook[publicKey]) {
-      return res.status(200).send("Already recognized");
+      return res.status(200).send({ message: "Already recognized" });
     }
 
     const selfIp = getSelfIp();
@@ -47,7 +47,8 @@ module.exports = (req, res) => {
     addressBook[publicKey] = ip;
 
     updateAddressBook(addressBook, (err) => {
-      if (err) return res.status(500).send("Internal server error");
+      if (err)
+        return res.status(500).send({ message: "Internal server error" });
 
       res.status(200).send({ peers: addressBook });
     });

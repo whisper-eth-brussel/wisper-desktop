@@ -55,25 +55,27 @@ module.exports = (req, res) => {
       publicKey: getPubkey(),
     }),
   })
+    .then((res) => res.json())
     .then((response) => {
       if (response.status !== 200) {
-        return res.status(400).send("Bad request");
+        return res.status(400).send({ message: "Bad request" });
       }
 
-      console.log(response.body);
+      console.log("a", response.body);
+
       const addressBook = JSON.parse(response.body.peers || "{}");
 
       updateAddressBook(addressBook, (err) => {
         if (err) {
-          res.status(500).send("Internal server error");
+          res.status(500)({ message: "Internal server error" });
           return;
         }
 
-        return res.status(200).send("OK");
+        return res.status(200).send({ message: "OK" });
       });
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).send("Internal server error");
+      res.status(500).send({ message: "Internal server error" });
     });
 };
