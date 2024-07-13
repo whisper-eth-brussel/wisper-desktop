@@ -1,0 +1,19 @@
+html(lang='en')
+  head
+    meta(name='viewport' content='width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0')
+    meta(charset='UTF-8')
+    if color_theme && color_theme.length
+      link(rel='stylesheet' href=`/css/general/${color_theme}.css`)
+    else
+      link(rel='stylesheet' href=`/css/general/${DEFAULT_COLOR_THEME}.css`)
+    link(href='https://fonts.googleapis.com/css?family=Inter:500' rel='stylesheet')
+    link(href='https://fonts.googleapis.com/css?family=Anek+Bangla:200,300,400,500' rel='stylesheet')
+    if includes
+      if includes.css && includes.css.length
+        each file_name in includes.css
+          link(rel='stylesheet' href=`/css/${file_name}.css`)
+      if includes.js && includes.js.length
+        each file_name in includes.js
+          script(src=`/js/${file_name}.js`)
+  body
+    block content
