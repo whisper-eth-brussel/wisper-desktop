@@ -41,6 +41,8 @@ function updateAddressBook(addressBook, callback) {
 module.exports = (req, res) => {
   const { destinationIp } = req.params;
 
+  destinationIp = Buffer.from(destinationIp, "hex").toString("utf8");
+
   fetch(
     `http://${destinationIp}:10101/peer/recognize`,
     {
