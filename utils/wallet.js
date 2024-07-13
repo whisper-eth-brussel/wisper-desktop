@@ -1,5 +1,4 @@
 const crypto = require('crypto');
-const { safeStorage } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const { app, safeStorage } = require('electron');
