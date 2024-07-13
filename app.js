@@ -57,7 +57,7 @@ const setupTrayMenu = (_) => {
   const tray = Tray(image.resize({ width: 16, height: 16 }));
   const menu = Menu.buildFromTemplate([
     {
-      label: 'Launch',
+      label: "Launch",
       // click: _ => shell.openExternal(`http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`)
     },
     {
@@ -88,10 +88,7 @@ electronApp.dock.hide();
 electronApp
   .on("ready", (_) => {
     craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
-      if (err)
-        console.log(err);
-
-      console.log("privateKey", privateKey);
+      if (err) console.log(err);
 
       localServer
         .listen(APP_PORT, (_) => {
@@ -126,5 +123,3 @@ electronApp
   });
 
 const os = require("os");
-
-console.log(os.networkInterfaces().en0[0]);
