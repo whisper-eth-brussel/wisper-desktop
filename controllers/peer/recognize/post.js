@@ -1,7 +1,12 @@
 const path = require("path");
+const fs = require("fs");
+const { app } = require("electron");
+const os = require("os");
+
+const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
 
 function getSelfIp(callback) {
-  return os.networkInterfaces().en0[0];
+  return os.networkInterfaces().en0[0].address;
 }
 
 function getAddressBook(callback) {
@@ -31,7 +36,7 @@ module.exports = (req, res) => {
   getAddressBook((err, addressBook) => {
     if (err) return res.status(500).send("Internal server error");
 
-    addressBook = JSON.parse(addressBook);
+    addressBook = JSON.parse(addressBook || "{}");
 
     if (addressBook[publicKey]) {
       return res.status(200).send("Already recognized");
