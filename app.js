@@ -55,11 +55,8 @@ const setupTrayMenu = (_) => {
   const tray = Tray(image.resize({ width: 16, height: 16 }));
   const menu = Menu.buildFromTemplate([
     {
-      label: "Launch",
-      click: (_) =>
-        shell.openExternal(
-          `http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`
-        ),
+      label: 'Launch',
+      // click: _ => shell.openExternal(`http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`)
     },
     {
       label: "About",
