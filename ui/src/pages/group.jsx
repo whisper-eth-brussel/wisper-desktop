@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { HeaderChat } from "../components/GroupPage/chats/HeaderChat";
 import { WriteChat } from "../components/GroupPage/chats/WriteChat";
 import { Container } from "../components/GroupPage/groups/Container";
@@ -13,29 +11,19 @@ import { ChatBox } from "../components/GroupPage/chats/ChatBox";
 import CreateGroup from "../components/CreateGroup";
 import { useLocation } from "react-router-dom";
 import { setCreateScreen } from "../store/slices/createScreen";
-import { useDetectClickOutside } from "react-detect-click-outside";
 
 const Group = () => {
   const dispatch = useDispatch();
-
   const chats = useSelector((state) => state.group.chats);
-
   const location = useLocation();
-
   const [isOpenSide, setIsOpenSide] = useState(false);
-
   const { isCreate } = useSelector((state) => state.isCreate);
-
-  const ref = useDetectClickOutside({
-    onTriggered: () => setIsOpenSide(false),
-  });
+  const chat = useSelector((state) => state.chat);
 
   useEffect(() => {
     dispatch(setCreateScreen(location.pathname === "/group/create"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
-
-  const chat = useSelector((state) => state.chat);
 
   useEffect(() => {
     dispatch(
@@ -44,7 +32,11 @@ const Group = () => {
       })
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [chats]);
+
+  const handleHeaderChatClick = () => {
+    setIsOpenSide(!isOpenSide);
+  };
 
   return (
     <div className="bg-[#FFFDFD] mx-8 my-12">
@@ -55,11 +47,10 @@ const Group = () => {
           <Container />
         </div>
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
-          <HeaderChat setIsOpenSide={setIsOpenSide} isCreate={isCreate} />
-
+          <HeaderChat onClick={handleHeaderChatClick} />
           <div className="relative">
             {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
-            <SideBox ref={ref} isOpen={isOpenSide} />
+            {isOpenSide && <SideBox />}
           </div>
           {!isCreate && <WriteChat />}
         </div>
@@ -69,3 +60,4 @@ const Group = () => {
 };
 
 export default Group;
+
