@@ -1,21 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Sora', sans-serif;
+  font-family: "Sora", sans-serif;
 }
 
-
-
 .container {
-  background-image: url('../assets/Group.png') ;
-  background-color: white !important;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
   width: 100% !important;
   height: 95vh !important;
   justify-content: space-around;
@@ -31,11 +23,9 @@
   align-items: center;
   background-color: transparent;
   margin-top: 40px;
-
 }
 
 .whisper {
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -54,16 +44,17 @@
   width: 140px;
   padding-right: 40px;
   background-color: transparent;
-  background-color: #DBC9FF;
+  background-color: #dbc9ff;
   padding: 5px;
   border-radius: 52px;
   padding-left: 20px;
+  gap: 10px;
 }
 
 .content {
   width: 575px;
   height: 406px;
-  margin-top: 400px;
+  margin-top: 360px;
 }
 
 .contentTitle {
@@ -79,7 +70,7 @@
   font-size: 20px;
   line-height: 28px;
   font-weight: 300;
-  color:  #808080;
+  color: #808080;
   margin-top: 20px;
   margin-left: 40px;
 }
@@ -90,8 +81,8 @@
   align-items: center;
   width: 200px;
   height: 45px;
-  background-color: #DBC9FF;
-  color: #2D1313;
+  background-color: #dbc9ff;
+  color: #2d1313;
   border-radius: 52px;
   margin-top: 20px;
   margin-left: 40px;

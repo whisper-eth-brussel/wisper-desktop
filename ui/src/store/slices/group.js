@@ -51,6 +51,18 @@ const initialState = {
       time: "12:00",
       link: "/group/1",
       unread: 2,
+      members: [
+        {
+          id: "1",
+          name: "User 1",
+          thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
+        },
+        {
+          id: "2",
+          name: "User 2",
+          thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
+        },
+      ],
       messages: [
         {
           id: "1",
@@ -76,11 +88,23 @@ const initialState = {
     },
     {
       id: "3",
-      name: "Group 1",
+      name: "Group 3",
       link: "/group/1",
       thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
       time: "12:00",
       unread: 2,
+      members: [
+        {
+          id: "1",
+          name: "User 1",
+          thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
+        },
+        {
+          id: "2",
+          name: "User 2",
+          thumbnail: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
+        },
+      ],
       messages: [
         {
           id: "1",
@@ -111,10 +135,14 @@ const initialState = {
 export const groupSlice = createSlice({
   name: "group",
   initialState,
-  reducers: {},
+  reducers: {
+    newChat: (state, action) => {
+      state.chats.push(action.payload);
+    },
+  },
 });
 
 // Action creators are generated for each case reducer function
-export const { openChat, closeChat } = groupSlice.actions;
+export const { newChat } = groupSlice.actions;
 
 export default groupSlice.reducer;

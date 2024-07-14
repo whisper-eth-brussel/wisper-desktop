@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
 
 import "./index.css";
 import Home from "./pages/home.jsx";
@@ -17,12 +18,18 @@ const router = createBrowserRouter([
     path: "/group",
     element: <Group />,
   },
+  {
+    path: "/group/create",
+    element: <Group />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ChakraProvider>
+        <RouterProvider router={router} />
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>
 );

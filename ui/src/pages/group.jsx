@@ -9,11 +9,23 @@ import { Top } from "../components/GroupPage/groups/Top";
 import Header from "../components/GroupPage/Header";
 import { openChat } from "../store/slices/chat";
 import { ChatBox } from "../components/GroupPage/chats/ChatBox";
+import CreateGroup from "../components/CreateGroup";
+import { useLocation } from "react-router-dom";
+import { setCreateScreen } from "../store/slices/createScreen";
 
 const Group = () => {
   const dispatch = useDispatch();
 
   const chats = useSelector((state) => state.group.chats);
+
+  const location = useLocation();
+
+  const { isCreate } = useSelector((state) => state.isCreate);
+
+  useEffect(() => {
+    dispatch(setCreateScreen(location.pathname === "/group/create"));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   const chat = useSelector((state) => state.chat);
 
@@ -35,9 +47,9 @@ const Group = () => {
           <Container />
         </div>
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
-          <HeaderChat />
-          <ChatBox messages={chat.messages} />
-          <WriteChat />
+          <HeaderChat isCreate={isCreate} />
+          {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
+          {!isCreate && <WriteChat />}
         </div>
       </div>
     </div>

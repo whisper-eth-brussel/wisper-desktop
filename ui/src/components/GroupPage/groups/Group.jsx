@@ -1,10 +1,19 @@
+import { useDispatch } from "react-redux";
+import { openChat } from "../../../store/slices/chat";
+import { setCreateScreen } from "../../../store/slices/createScreen";
+
 /* eslint-disable react/prop-types */
 export const Group = (props) => {
   const { group } = props;
 
+  const dispatch = useDispatch();
+
   return (
     <div
-      onClick={() => {}}
+      onClick={() => {
+        dispatch(setCreateScreen(false));
+        dispatch(openChat({ ...group }));
+      }}
       className="border-forth cursor-pointer px-2 py-3 border-b flex items-center justify-between gap-4"
     >
       <div className="flex items-center gap-x-3">
@@ -21,9 +30,11 @@ export const Group = (props) => {
           <h2 className="font-sora text-text-primary text-lg font-semibold">
             {group.name}
           </h2>
-          <p className="text-text-primary text-opacity-60">
-            {group.messages[group.messages.length - 1].message}
-          </p>
+          {group.messages.length > 0 && (
+            <p className="text-text-primary text-opacity-60">
+              {group.messages[group.messages.length - 1].message}
+            </p>
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-y-1 justify-between items-end">

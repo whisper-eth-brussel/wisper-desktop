@@ -10,17 +10,10 @@ export const ChatBox = (props) => {
   }
 
   return (
-    <div className="flex-1 overflow-auto py-4 px-6 flex flex-col gap-y-2">
+    <div className="h-[500px] overflow-auto py-4 px-6 flex flex-col gap-y-2">
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
-      {messages.map((message) => (
-        <Message key={message.id} message={message} />
-      ))}
-      {messages.map((message) => (
-        <Message key={message.id} message={message} />
-      ))}
-    
     </div>
   );
 };
