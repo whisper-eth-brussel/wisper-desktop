@@ -27,6 +27,7 @@ const { craeteOrGetEncrpytedPrivateKey } = require("./utils/wallet");
 const indexRouteController = require("./routes/indexRoute");
 const peersRouteController = require("./routes/peerRoute");
 const roomRouteController = require("./routes/roomRoute");
+const gossipRouteController = require("./routes/gossipRoute");
 
 expressApp.set("view engine", "pug");
 expressApp.set("views", path.join(__dirname, "views"));
@@ -48,6 +49,7 @@ expressApp.use(
 expressApp.use("/", indexRouteController);
 expressApp.use("/peer", peersRouteController);
 expressApp.use("/room", roomRouteController);
+expressApp.use("/gossip", gossipRouteController);
 expressApp.all("*", (req, res) => {
   return res.redirect("/");
 });

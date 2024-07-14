@@ -3,7 +3,7 @@ const router = require("express").Router();
 const peerIntroducePostController = require("../controllers/peer/introduce/get");
 const peerRecognizePostController = require("../controllers/peer/recognize/post");
 
-router.post(
+router.get(
   "/introduce/:destinationIp",
   peerIntroducePostController
 );
