@@ -1,16 +1,15 @@
 const { verifyTx } = require("../../../utils/wallet");
-
+const { addChat, getChatHistory } = require("../../../utils/chat");
 module.exports = (req, res) => {
   if (!req.body.tx || typeof req.body.tx != "object")
     return res.status(400).json({ error: "Bad request" });
 
   verifyTx(req.body.tx, (err, verified) => {
-    if (err)
-      console.log(err);
+    if (err) console.log(err);
 
     if (verified) {
-      // save to varaible
-    };
+      addChat(req.body.tx);
+    }
 
     return res.status(200).json({ message: "OK" });
   });

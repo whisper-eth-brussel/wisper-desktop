@@ -1,17 +1,17 @@
-const fs = require("fs");
-const { app } = require("electron");
-const path = require("path");
+const chatHistory = ["asd", "qwe", "zxc"];
+const io = require("../../../socket").getIO();
 
-const chatPath = path.join(app.getPath("userData"), "chat_history.json");
-
-module.exports = {
-
+const addChat = (chat) => {
+  chatHistory.push(chat);
+  if (io) {
+    io.emit("chat", chatHistory);
+  }
 };
 
-// [
-//   {
-//     "time": "438274021424",
-//     "from": "0x82498421421401240295012",
-//     "message": "Hello world"
-//   }
-// ]
+const getChatHistory = () => {
+  if (io) {
+    io.emit("chat", chatHistory);
+  }
+};
+
+module.exports = { addChat, getChatHistory };
