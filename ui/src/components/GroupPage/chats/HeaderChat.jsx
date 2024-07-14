@@ -5,7 +5,7 @@ import { IoIosLink } from "react-icons/io";
 
 import { useToast } from "@chakra-ui/react";
 
-export const HeaderChat = ({ isCreate, setIsOpenSide }) => {
+export const HeaderChat = ({ onClick, isCreate, setIsOpenSide }) => {
   const chat = useSelector((state) => state.chat);
 
   const { name, thumbnail, members } = chat;
@@ -25,6 +25,7 @@ export const HeaderChat = ({ isCreate, setIsOpenSide }) => {
 
   return (
     <div
+      onClick={onClick}
       className={`py-6 px-9 rounded-t-3xl flex-1  ${
         isCreate ? "bg-primary" : "bg-fifth"
       }`}
