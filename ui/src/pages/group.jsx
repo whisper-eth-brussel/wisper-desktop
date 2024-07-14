@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { HeaderChat } from "../components/GroupPage/chats/HeaderChat";
+import { WriteChat } from "../components/GroupPage/chats/WriteChat";
 import { Container } from "../components/GroupPage/groups/Container";
 import { Top } from "../components/GroupPage/groups/Top";
 import Header from "../components/GroupPage/Header";
@@ -36,6 +37,7 @@ const Group = () => {
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
           <HeaderChat />
           <ChatBox messages={chat.messages} />
+          <WriteChat />
         </div>
       </div>
     </div>

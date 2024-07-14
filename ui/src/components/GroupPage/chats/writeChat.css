@@ -1,0 +1,17 @@
+.inputIcons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 40px;
+  z-index: 100;
+  position: absolute;
+  width: 92%;
+  top: 7px;
+  padding: 10px 15px !important;
+  padding-left: 30px !important;
+  justify-content: space-between;
+}
+
+.writeChat {
+  position: relative;
+}

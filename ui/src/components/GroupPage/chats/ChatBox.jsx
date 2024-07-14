@@ -20,12 +20,7 @@ export const ChatBox = (props) => {
       {messages.map((message) => (
         <Message key={message.id} message={message} />
       ))}
-      {messages.map((message) => (
-        <Message key={message.id} message={message} />
-      ))}
-      {messages.map((message) => (
-        <Message key={message.id} message={message} />
-      ))}
+    
     </div>
   );
 };
