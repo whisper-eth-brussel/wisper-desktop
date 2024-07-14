@@ -18,6 +18,8 @@ const getChatHistory = () => {
   if (io) {
     io.emit("chat", chatHistory);
   }
+
+  return chatHistory;
 };
 
 module.exports = { addChat, getChatHistory };
