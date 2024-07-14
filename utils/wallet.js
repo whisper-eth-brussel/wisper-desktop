@@ -17,12 +17,14 @@ function signTx(tx, callback) {
 
       tx.data.sender_pubkey = pubkey;
 
-      crypto.sign('sha256', { data: tx.data }, privateKey, (err, signature) => {
+      crypto.sign('sha256', JSON.stringify(tx.data), privateKey, (err, signature) => {
         if (err)
           return callback(err);
 
-        tx.hash = crypto.createHash('sha256').update(tx.data).digest('hex');
-        tx.signature = signature;
+        console.log('signature:', signature);
+
+        tx.hash = crypto.createHash('sha256').update(JSON.stringify(tx.data)).digest('hex');
+        tx.signature = Buffer.from(signature).toString('base64');
 
         return callback(null, tx);
       });
@@ -35,7 +37,7 @@ function verifyTx(tx, callback) {
     if (err)
       return callback(err);
 
-    crypto.verify('sha256', { data: tx.data }, pubkey, tx.signature, (err, isValid) => {
+    crypto.verify('sha256', JSON.stringify(tx.data), pubkey, Buffer.from(tx.signature, 'base64'), (err, isValid) => {
       if (err)
         return callback(err);
 
