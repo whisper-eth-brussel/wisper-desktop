@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Sora", sans-serif;
+}
+
+.container {
+  width: 100% !important;
+  height: 95vh !important;
+  justify-content: space-around;
+  margin: 0px auto !important;
+  padding: 2px !important;
+}
+
+.navigation {
+  display: flex;
+  flex-direction: row;
+  height: 40px;
+  width: 100%;
+  align-items: center;
+  background-color: transparent;
+  margin-top: 40px;
+}
+
+.whisper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding-left: 40px;
+  padding-right: 900px;
+  background-color: transparent;
+}
+
+.navbarGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 45px;
+  width: 140px;
+  padding-right: 40px;
+  background-color: transparent;
+  background-color: #dbc9ff;
+  padding: 5px;
+  border-radius: 52px;
+  padding-left: 20px;
+  gap: 10px;
+}
+
+.content {
+  width: 575px;
+  height: 406px;
+  margin-top: 360px;
+}
+
+.contentTitle {
+  font-size: 64px;
+  line-height: 67.84px;
+  font-weight: 400;
+  color: #000;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+.contentText {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 300;
+  color: #808080;
+  margin-top: 20px;
+  margin-left: 40px;
+}
+
+.contentButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 45px;
+  background-color: #dbc9ff;
+  color: #2d1313;
+  border-radius: 52px;
+  margin-top: 20px;
+  margin-left: 40px;
+}
