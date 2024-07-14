@@ -18,6 +18,7 @@ export const WriteChat = () => {
         fontSize: "14px",
         color: "#24252A",
         fontWeight: "400",
+        zIndex: "999",
       }}
        type="text" placeholder='Type a message' />
     
