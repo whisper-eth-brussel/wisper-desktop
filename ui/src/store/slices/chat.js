@@ -28,10 +28,13 @@ export const chatSlice = createSlice({
       state.link = "";
       state.messages = [];
     },
+    addMessage(state, action) {
+      state.messages.push(action.payload);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { openChat, closeChat } = chatSlice.actions;
+export const { openChat, closeChat, addMessage } = chatSlice.actions;
 
 export default chatSlice.reducer;

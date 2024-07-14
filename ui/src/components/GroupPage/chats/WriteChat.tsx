@@ -1,9 +1,46 @@
 import React from "react";
 import "./writeChat.css";
 import { FaAngleUp } from "react-icons/fa";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addMessage } from "../../../store/slices/chat";
 
 export const WriteChat = () => {
   const [message, setMessage] = React.useState("");
+
+  const dispatch = useDispatch();
+
+  const sendMessage = async () => {
+    // /gossip/send -> post ->
+    // const body = {
+    //   message: "Hello",
+    // };
+
+    try {
+      const res = await axios.post("http://localhost:10101/gossip/send", {
+        message,
+      });
+
+      if (res.status === 200) {
+        setMessage("");
+        dispatch(
+          addMessage({
+            id: "1",
+            sender: {
+              id: "1",
+              name: "User 1",
+              thumbnail:
+                "https://randomuser.me/api/portraits/thumb/women/25.jpg",
+            },
+            message: message,
+            time: "12:00",
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex w-full px-4 items-center gap-x-2">
@@ -88,9 +125,7 @@ export const WriteChat = () => {
       </div>
       {message && (
         <button
-          onClick={() => {
-            // send message
-          }}
+          onClick={sendMessage}
           className="bg-forth rounded-full w-12 h-12 flex items-center justify-center"
         >
           <FaAngleUp className="text-white" />

@@ -10,11 +10,14 @@ export const HeaderChat = ({ isCreate, setIsOpenSide }) => {
 
   const { name, thumbnail, members } = chat;
 
+  const { link } = useSelector((state) => state.link);
+
   const toast = useToast();
 
   const handleCopy = (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText("https://chat-app.com/join/123456");
+    if (!link) return;
+    navigator.clipboard.writeText(link);
     return toast({
       title: "Copied",
       status: "success",

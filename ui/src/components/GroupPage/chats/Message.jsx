@@ -2,7 +2,7 @@
 import { personId } from "../../../constants/person";
 
 export const Message = ({ message }) => {
-  if (personId === message.sender) {
+  if (personId === message.sender.id) {
     return (
       <div className="flex justify-end w-full">
         <div className="bg-secondary flex max-w-[400px] gap-x-4 items-center justify-center rounded-[45px] px-4 py-3">

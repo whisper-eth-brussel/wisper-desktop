@@ -46,6 +46,13 @@ expressApp.use(
   })
 );
 
+expressApp.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+  next();
+});
+
 expressApp.use("/", indexRouteController);
 expressApp.use("/peer", peersRouteController);
 expressApp.use("/room", roomRouteController);
@@ -98,8 +105,6 @@ electronApp
         .listen(APP_PORT, (_) => {
           console.log(`Server is on port ${APP_PORT} and is running.`);
 
-          console.log(require('os').networkInterfaces().en0[0].address);
-
           setupTrayMenu();
         })
         .on("error", (err) => {
@@ -127,3 +132,8 @@ electronApp
       `You arrived from: ${commandLine.pop()}`
     );
   });
+
+const { init } = require("./socket");
+init(localServer);
+
+const os = require("os");

@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosLink } from "react-icons/io";
 
 import { MdEdit } from "react-icons/md";
 import { Button } from "../common/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { newChat } from "../../store/slices/group";
 import { openChat } from "../../store/slices/chat";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@chakra-ui/react";
 import { setCreateScreen } from "../../store/slices/createScreen";
+import axios from "axios";
+import { setLink } from "../../store/slices/link";
 
 const CreateGroup = () => {
   const [image, setImage] = useState(null);
@@ -18,6 +20,8 @@ const CreateGroup = () => {
 
   const [members, setMembers] = useState(1);
 
+  const { link } = useSelector((state) => state.link);
+
   const [limitMembers, setLimitMembers] = useState(false);
 
   const dispatch = useDispatch();
@@ -25,6 +29,20 @@ const CreateGroup = () => {
   const navigate = useNavigate();
 
   const toast = useToast();
+
+  const getLink = async () => {
+    // /room/create -> get ->  data
+    try {
+      const res = await axios.get("http://localhost:10101/room/create");
+      dispatch(setLink(res.data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getLink();
+  }, []);
 
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -47,7 +65,9 @@ const CreateGroup = () => {
 
   const handleCopy = (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText("https://chat-app.com/join/123456");
+    e.stopPropagation();
+    if (!link) return;
+    navigator.clipboard.writeText(link);
     return toast({
       title: "Copied",
       status: "success",
@@ -80,8 +100,14 @@ const CreateGroup = () => {
         name: name,
         thumbnail: image,
         time: "12:00",
-        link: "/group/5",
-        members: [],
+        link: link,
+        members: [
+          {
+            id: "1",
+            name: "Kutay",
+            thumbnail: "",
+          },
+        ],
         messages: [],
       })
     );
@@ -90,8 +116,14 @@ const CreateGroup = () => {
         id: "5",
         name: name,
         thumbnail: image,
-        members: [],
-        link: "/group/5",
+        members: [
+          {
+            id: "1",
+            name: "Kutay",
+            thumbnail: "",
+          },
+        ],
+        link: link,
         messages: [],
       })
     );

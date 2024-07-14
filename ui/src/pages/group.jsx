@@ -11,9 +11,10 @@ import Header from "../components/GroupPage/Header";
 import { openChat } from "../store/slices/chat";
 import { ChatBox } from "../components/GroupPage/chats/ChatBox";
 import CreateGroup from "../components/CreateGroup";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setCreateScreen } from "../store/slices/createScreen";
 import { useDetectClickOutside } from "react-detect-click-outside";
+import { io } from "socket.io-client";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -22,9 +23,20 @@ const Group = () => {
 
   const location = useLocation();
 
+  const navigate = useNavigate();
+
   const [isOpenSide, setIsOpenSide] = useState(false);
 
   const { isCreate } = useSelector((state) => state.isCreate);
+
+  const socket = io("http://localhost:10101" ?? "", {});
+
+  socket.on("connect", () => {
+    console.log("connected");
+  });
+  socket.on("chat", (data) => {
+    console.log(data);
+  });
 
   const ref = useDetectClickOutside({
     onTriggered: () => setIsOpenSide(false),
@@ -38,13 +50,22 @@ const Group = () => {
   const chat = useSelector((state) => state.chat);
 
   useEffect(() => {
-    dispatch(
-      openChat({
-        ...chats[0],
-      })
-    );
+    if (chats.length > 0) {
+      dispatch(
+        openChat({
+          ...chats[0],
+        })
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (chats.length === 0) {
+      navigate("/group/create");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chats]);
 
   return (
     <div className="bg-[#FFFDFD] mx-8 my-12">
