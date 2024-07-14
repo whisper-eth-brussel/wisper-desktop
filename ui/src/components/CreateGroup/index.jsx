@@ -30,6 +30,27 @@ const CreateGroup = () => {
 
   const toast = useToast();
 
+  const prove = async (url, options) => {
+    const response = await fetch(url, options);
+    const transcript = await response.text();
+    const proof = await fetch("http://localhost:10101/proof", {});
+  };
+
+  const proof = async () => {
+    await prove("http://localhost:10101/room/create", {
+      method: "GET",
+      headers: {
+        Connection: "close",
+        Accept: "application/json",
+        "Accept-Encoding": "identity",
+      },
+      body: "",
+      maxTranscriptSize: 20000,
+      notaryUrl: "https://127.0.0.1:7047",
+      websocketProxyUrl: "ws://127.0.0.1:55688",
+    });
+  };
+
   const getLink = async () => {
     // /room/create -> get ->  data
     try {
