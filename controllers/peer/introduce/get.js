@@ -2,6 +2,7 @@ const { getPubkey } = require("../../../utils/wallet");
 const { getSelfIp, updateAddressBook } = require("../../../utils/addressbook");
 
 module.exports = (req, res) => {
+  console.log("here aghain");
   let { destinationIp } = req.params;
 
   destinationIp = Buffer.from(destinationIp, "hex").toString("utf8");
@@ -15,10 +16,14 @@ module.exports = (req, res) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        ip: getSelfIp(),
-        publicKey: pubkey,
-      }, null, 2),
+      body: JSON.stringify(
+        {
+          ip: getSelfIp(),
+          publicKey: pubkey,
+        },
+        null,
+        2
+      ),
     })
       .then((res) => res.json())
       .then((response) => {

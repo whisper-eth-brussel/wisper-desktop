@@ -4,7 +4,7 @@ const { app } = require("electron");
 const os = require("os");
 
 const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
-
+console.log(addressBookPath);
 function getSelfIp() {
   return os.networkInterfaces().en0[0].address;
 }
