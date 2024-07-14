@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { HeaderChat } from "../components/GroupPage/chats/HeaderChat";
 import { WriteChat } from "../components/GroupPage/chats/WriteChat";
 import { Container } from "../components/GroupPage/groups/Container";
+import { SideBox } from "../components/GroupPage/chats/SideBox";
 import { Top } from "../components/GroupPage/groups/Top";
 import Header from "../components/GroupPage/Header";
 import { openChat } from "../store/slices/chat";
@@ -47,9 +48,22 @@ const Group = () => {
           <Container />
         </div>
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
+<<<<<<< Updated upstream
           <HeaderChat isCreate={isCreate} />
           {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
           {!isCreate && <WriteChat />}
+=======
+          <HeaderChat />
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+          
+          }}>
+          <ChatBox messages={chat.messages} />
+          <SideBox />
+          </div>
+          <WriteChat />
+>>>>>>> Stashed changes
         </div>
       </div>
     </div>
