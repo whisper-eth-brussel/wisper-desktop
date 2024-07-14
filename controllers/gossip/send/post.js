@@ -22,7 +22,7 @@ module.exports = (req, res) => {
           },
           body: JSON.stringify({
             tx: signed_tx,
-          }),
+          }, null, 2),
         })
           .then(res => res.json())
           .then(response => callback(null))

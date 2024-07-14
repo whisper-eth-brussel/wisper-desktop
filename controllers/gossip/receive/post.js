@@ -9,7 +9,7 @@ module.exports = (req, res) => {
       console.log(err);
 
     if (verified) {
-      // add to local storage
+      // save to varaible
     };
 
     return res.status(200).json({ message: "OK" });

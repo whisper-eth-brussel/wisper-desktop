@@ -20,7 +20,7 @@ function getAddressBook(callback) {
 }
 
 function updateAddressBook(addressBook, callback) {
-  fs.writeFile(addressBookPath, JSON.stringify(addressBook), (err) => {
+  fs.writeFile(addressBookPath, JSON.stringify(addressBook, null, 2), (err) => {
     if (err) {
       return callback(err);
     }

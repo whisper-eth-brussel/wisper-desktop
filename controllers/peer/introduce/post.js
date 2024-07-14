@@ -18,7 +18,7 @@ module.exports = (req, res) => {
       body: JSON.stringify({
         ip: getSelfIp(),
         publicKey: pubkey,
-      }),
+      }, null, 2),
     })
       .then((res) => res.json())
       .then((response) => {
