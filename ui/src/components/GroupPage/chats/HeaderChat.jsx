@@ -5,7 +5,7 @@ import { IoIosLink } from "react-icons/io";
 
 import { useToast } from "@chakra-ui/react";
 
-export const HeaderChat = ({ isCreate }) => {
+export const HeaderChat = ({ isCreate, setIsOpenSide }) => {
   const chat = useSelector((state) => state.chat);
 
   const { name, thumbnail, members } = chat;
@@ -35,7 +35,12 @@ export const HeaderChat = ({ isCreate }) => {
         }`}
       >
         {!isCreate && (
-          <div className="flex items-center gap-x-3">
+          <div
+            onClick={() => {
+              setIsOpenSide(true);
+            }}
+            className="flex cursor-pointer items-center gap-x-3"
+          >
             {thumbnail ? (
               <img
                 src={thumbnail}

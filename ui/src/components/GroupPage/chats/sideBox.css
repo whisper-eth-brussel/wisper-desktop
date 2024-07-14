@@ -1,7 +1,11 @@
 .sidebox-container {
-  background-color: #F0E8FF;
+  background-color: #f0e8ff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
 }
-
 
 .sidebox-header {
   display: flex;
@@ -12,27 +16,24 @@
   margin-right: 50px !important;
 }
 
-
-.sidebox-header-icon img{
+.sidebox-header-icon img {
   width: 101px;
   height: 101px;
   border-radius: 50%;
 }
 
-
-.sidebox-header-title-name{
+.sidebox-header-title-name {
   font-weight: 600;
   font-size: 26px;
   line-height: 31px;
 }
-.sidebox-header-title-member{
+.sidebox-header-title-member {
   font-size: 14px;
   line-height: 16px;
   font-weight: 300;
 }
 
-
-.sidebox-header-title{
+.sidebox-header-title {
   width: 300px;
   display: flex;
   flex-direction: column;

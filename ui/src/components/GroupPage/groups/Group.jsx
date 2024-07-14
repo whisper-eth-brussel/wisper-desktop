@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { openChat } from "../../../store/slices/chat";
 import { setCreateScreen } from "../../../store/slices/createScreen";
+import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 export const Group = (props) => {
@@ -8,11 +9,14 @@ export const Group = (props) => {
 
   const dispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   return (
     <div
       onClick={() => {
         dispatch(setCreateScreen(false));
         dispatch(openChat({ ...group }));
+        navigate("/group");
       }}
       className="border-forth cursor-pointer px-2 py-3 border-b flex items-center justify-between gap-4"
     >

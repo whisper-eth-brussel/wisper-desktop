@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +13,7 @@ import { ChatBox } from "../components/GroupPage/chats/ChatBox";
 import CreateGroup from "../components/CreateGroup";
 import { useLocation } from "react-router-dom";
 import { setCreateScreen } from "../store/slices/createScreen";
+import { useDetectClickOutside } from "react-detect-click-outside";
 
 const Group = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,13 @@ const Group = () => {
 
   const location = useLocation();
 
+  const [isOpenSide, setIsOpenSide] = useState(false);
+
   const { isCreate } = useSelector((state) => state.isCreate);
+
+  const ref = useDetectClickOutside({
+    onTriggered: () => setIsOpenSide(false),
+  });
 
   useEffect(() => {
     dispatch(setCreateScreen(location.pathname === "/group/create"));
@@ -48,15 +55,11 @@ const Group = () => {
           <Container />
         </div>
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
-          <HeaderChat isCreate={isCreate} />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
+          <HeaderChat setIsOpenSide={setIsOpenSide} isCreate={isCreate} />
+
+          <div className="relative">
             {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
-            <SideBox />
+            <SideBox ref={ref} isOpen={isOpenSide} />
           </div>
           {!isCreate && <WriteChat />}
         </div>
