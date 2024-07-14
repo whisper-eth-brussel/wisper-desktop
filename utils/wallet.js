@@ -7,20 +7,41 @@ const privateKeyPath = path.join(app.getPath('userData'), 'encryptedPrivateKey')
 const publicKeyPath = path.join(app.getPath('userData'), 'publicKey');
 
 function signTx(tx, callback) {
-  craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
+  getPubkey((err, pubkey) => {
     if (err)
       return callback(err);
 
-    crypto.sign('sha256', {
-      data: tx.data
-    }, privateKey, (err, signature) => {
+    craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
       if (err)
+        return callback(err);
+
+      tx.data.sender_pubkey = pubkey;
+
+      crypto.sign('sha256', JSON.stringify(tx.data), privateKey, (err, signature) => {
+        if (err)
           return callback(err);
 
-      tx.hash = crypto.createHash('sha256').update(tx.data).digest('hex');
-      tx.signature = signature;
+        console.log('signature:', signature);
 
-      return callback(null, tx);
+        tx.hash = crypto.createHash('sha256').update(JSON.stringify(tx.data)).digest('hex');
+        tx.signature = Buffer.from(signature).toString('base64');
+
+        return callback(null, tx);
+      });
+    });
+  });
+};
+
+function verifyTx(tx, callback) {
+  getPubkey((err, pubkey) => {
+    if (err)
+      return callback(err);
+
+    crypto.verify('sha256', JSON.stringify(tx.data), pubkey, Buffer.from(tx.signature, 'base64'), (err, isValid) => {
+      if (err)
+        return callback(err);
+
+      return callback(null, isValid);
     });
   });
 };
@@ -28,7 +49,7 @@ function signTx(tx, callback) {
 function craeteOrGetEncrpytedPrivateKey(callback) {
   if (!fs.existsSync(privateKeyPath)) {
     crypto.generateKeyPair('rsa', {
-      modulusLength: 4096,
+      modulusLength: 1024,
       publicKeyEncoding: {
         type: 'spki',
         format: 'pem'
@@ -74,6 +95,7 @@ function getPubkey(callback) {
 
 module.exports = {
   signTx,
+  verifyTx,
   getPubkey,
   craeteOrGetEncrpytedPrivateKey
 };

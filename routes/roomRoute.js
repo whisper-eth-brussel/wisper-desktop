@@ -2,11 +2,16 @@ const express = require('express');
 
 const router = express.Router();
 
-const indexGetController = require('../controllers/room/create/get');
+const createGetController = require('../controllers/room/create/get');
+const joinGetController = require('../controllers/room/join/get');
 
 router.get(
-  '/',
-  indexGetController
+  '/create',
+  createGetController
+);
+router.get(
+  '/join',
+  joinGetController
 );
 
 module.exports = router;

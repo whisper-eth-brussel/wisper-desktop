@@ -26,6 +26,8 @@ const { craeteOrGetEncrpytedPrivateKey } = require("./utils/wallet");
 
 const indexRouteController = require("./routes/indexRoute");
 const peersRouteController = require("./routes/peerRoute");
+const roomRouteController = require("./routes/roomRoute");
+const gossipRouteController = require("./routes/gossipRoute");
 
 expressApp.set("view engine", "pug");
 expressApp.set("views", path.join(__dirname, "views"));
@@ -46,6 +48,8 @@ expressApp.use(
 
 expressApp.use("/", indexRouteController);
 expressApp.use("/peer", peersRouteController);
+expressApp.use("/room", roomRouteController);
+expressApp.use("/gossip", gossipRouteController);
 expressApp.all("*", (req, res) => {
   return res.redirect("/");
 });
@@ -57,7 +61,7 @@ const setupTrayMenu = (_) => {
   const tray = Tray(image.resize({ width: 16, height: 16 }));
   const menu = Menu.buildFromTemplate([
     {
-      label: 'Launch',
+      label: "Launch",
       // click: _ => shell.openExternal(`http://localhost:${APP_PORT}/auth?app_key=${AppKey.get()}`)
     },
     {
@@ -88,14 +92,13 @@ electronApp.dock.hide();
 electronApp
   .on("ready", (_) => {
     craeteOrGetEncrpytedPrivateKey((err, privateKey) => {
-      if (err)
-        console.log(err);
-
-      console.log("privateKey", privateKey);
+      if (err) console.log(err);
 
       localServer
         .listen(APP_PORT, (_) => {
           console.log(`Server is on port ${APP_PORT} and is running.`);
+
+          console.log(require('os').networkInterfaces().en0[0].address);
 
           setupTrayMenu();
         })
@@ -124,7 +127,3 @@ electronApp
       `You arrived from: ${commandLine.pop()}`
     );
   });
-
-const os = require("os");
-
-console.log(os.networkInterfaces().en0[0]);

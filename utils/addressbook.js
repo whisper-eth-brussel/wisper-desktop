@@ -4,10 +4,10 @@ const { app } = require("electron");
 const os = require("os");
 
 const addressBookPath = path.join(app.getPath("userData"), "addressBook.txt");
-
+console.log(addressBookPath);
 function getSelfIp() {
   return os.networkInterfaces().en0[0].address;
-};
+}
 
 function getAddressBook(callback) {
   fs.readFile(addressBookPath, "utf8", (err, data) => {
@@ -17,20 +17,20 @@ function getAddressBook(callback) {
 
     return callback(null, data);
   });
-};
+}
 
 function updateAddressBook(addressBook, callback) {
-  fs.writeFile(addressBookPath, JSON.stringify(addressBook), (err) => {
+  fs.writeFile(addressBookPath, JSON.stringify(addressBook, null, 2), (err) => {
     if (err) {
       return callback(err);
     }
 
     return callback(null);
   });
-};
+}
 
 module.exports = {
   getSelfIp,
   getAddressBook,
-  updateAddressBook
+  updateAddressBook,
 };
