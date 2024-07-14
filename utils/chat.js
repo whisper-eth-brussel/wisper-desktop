@@ -1,5 +1,5 @@
 const chatHistory = ["asd", "qwe", "zxc"];
-const io = require("../../../socket").getIO();
+const io = require("../socket").getIO();
 
 console.log(chatHistory);
 
