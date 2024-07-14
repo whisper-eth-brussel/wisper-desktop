@@ -48,22 +48,17 @@ const Group = () => {
           <Container />
         </div>
         <div className="col-start-5 overflow-hidden rounded-3xl col-end-13 bg-primary flex-1">
-<<<<<<< Updated upstream
           <HeaderChat isCreate={isCreate} />
-          {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
-          {!isCreate && <WriteChat />}
-=======
-          <HeaderChat />
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-          
-          }}>
-          <ChatBox messages={chat.messages} />
-          <SideBox />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            {isCreate ? <CreateGroup /> : <ChatBox messages={chat.messages} />}
+            <SideBox />
           </div>
-          <WriteChat />
->>>>>>> Stashed changes
+          {!isCreate && <WriteChat />}
         </div>
       </div>
     </div>
