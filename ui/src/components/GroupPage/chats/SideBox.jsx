@@ -3,11 +3,10 @@ import "./sideBox.css";
 import ethglobal from "../../../assets/ethglobal.jpeg";
 import { SideContainer } from "../groups/SideContainer";
 
-export const SideBox = ({ ref, isOpen }) => {
-  if (!isOpen) return null;
+export const SideBox = () => {
 
   return (
-    <div ref={ref} className="sidebox-container">
+    <div className="sidebox-container">
       <div className="sidebox-header">
         <div className="sidebox-header-icon">
           <img src={ethglobal} />
